@@ -1,0 +1,341 @@
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Random;
+import java.util.Scanner;
+import java.util.Set;
+
+//Thomas McLaughlin
+//FBLA PROJECT
+
+//LFG BOYS!!11!!11!!
+
+
+     
+     public class HangmanGameMenu {
+
+         
+         public static final String[] BUSINESSWORDS = 
+         {
+            "CONSUMER", "CREATIVE", "ENTREPRENEUR", "MARKETING", "ECONOMICS", "COMMUNICATION", "INVESTMENT", "EFFICIENCY",
+            "BUSINESS", "STOCK", "GROWTH", "MANAGEMENT", "LEADER", "INNOVATIVE","DEBT", "BUDGET", "RISK", "SUPPLY",
+            "PROFIT", "PRODUCT", "ASSETS", "LIABILITY", "DEMAND", "GOALS", "TEAM", "FEEDBACK", "OFFER", "INDUSTRY"
+        		 //test values //"AB", "XY", "CD", "BC", "YZ", "DE", "EF"
+         };
+         //yo random is constant just incase u forget 
+         public static final Random RANDOM = new Random();
+         
+         public static final int MAXIMUM_ERRORS = 8;
+         
+         private String findDatWord;
+        
+        
+         //YEEE 1
+         private char[] foundWord;
+         
+         private int lilErrors;
+         
+         private ArrayList < String > letters = new ArrayList < > ();
+         //this sht above keeps track of letters already used
+		private int incorrectAttempts;
+
+		private Map<String, Integer> wordAndCount = new HashMap<String, Integer>();
+		//ughhhhhhhhhhhhhhhhhhhhhh 
+		public HangmanGameMenu()
+		{
+			
+		}
+		
+         //YEEE 2
+         private String findNextWord() 
+         {
+            return BUSINESSWORDS[RANDOM.nextInt(BUSINESSWORDS.length)];
+         }
+
+         //stuff for a new game
+         public void newGame() 
+         {
+            lilErrors = 0;
+            letters.clear();
+            incorrectAttempts = 0;
+            findDatWord = findNextWord();
+            wordAndCount.put(findDatWord, incorrectAttempts);
+
+            
+            foundWord = new char[findDatWord.length()];
+
+            for (int i = 0; i < foundWord.length; i++) 
+            {
+               foundWord[i] = '_';
+            }
+         }
+
+         //if u find the word!  = true :)
+         public boolean foundWord() 
+         {
+            return findDatWord.contentEquals(new String(foundWord));
+         }
+
+         //update word found
+         private void enter(String b) 
+         {
+                        if (!letters.contains(b)) 
+            {
+               
+               if (findDatWord.contains(b)) 
+               {
+                  // if we do then we change it to the string 
+                  int index = findDatWord.indexOf(b);
+
+                  while (index >= 0) 
+                  {
+                     foundWord[index] = b.charAt(0);
+                     index = findDatWord.indexOf(b, index + 1);
+                  }
+            } 
+            else 
+            {
+               //nuh uh no no
+               lilErrors++;
+               incorrectAttempts++;
+               wordAndCount.put(findDatWord, incorrectAttempts);
+            }
+
+            // :)
+            letters.add(b);
+         }
+      }
+
+      //so this john here lets sha boy know how the word is doin 
+      private String wordFoundContent() 
+      {
+         StringBuilder builder = new StringBuilder();
+
+         for (int i = 0; i < foundWord.length; i++) 
+         {
+            builder.append(foundWord[i]);
+
+            if (i < foundWord.length - 1) 
+            {
+               builder.append(" ");
+            }
+         } 
+
+         return builder.toString();
+      }
+
+     //YEE 3
+      public void play() 
+      {
+    	  
+         try 
+         {
+            
+            while (lilErrors < MAXIMUM_ERRORS) 
+            {
+               System.out.println("\nPlease enter a capital letter : ");
+               
+               //old error right here. 
+               String str = scanner.next();
+               
+
+               // so we only take the first letter idk maybe implement something to let user know it only takes first word later on!!!!! please dont forget
+               if (str.length() > 1) 
+               {
+                  str = str.substring(0, 1);
+               }
+
+              
+               enter(str);
+
+               
+               System.out.println("\n" + wordFoundContent());
+
+               
+               if (foundWord()) 
+               {
+                  System.out.println("\nYou won!");
+                  // XXXXXXXXXXXXXXXXXXXXXX   wordAndCount.put(findDatWord, attemptCount);   XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+                  
+                  break;
+               } 
+               else 
+               {
+                  
+                  System.out.println("\n=> You have " + (MAXIMUM_ERRORS - lilErrors) + " tries remaining.\n\n");
+               }
+            }
+            
+            // :(
+            if (lilErrors == MAXIMUM_ERRORS) 
+            {
+               //HAHAHAHAHAHA LOSER LOST HAHHAAHAHAHAHAHAH
+               System.out.println("\nYou lost!");
+               System.out.println("=> Word to find was : " + findDatWord);
+               // XXXXXXXXXXXXXXXXXXX  wordAndCount.put(findDatWord, attemptCount);  XXXXXXXXXXXXXXXXXXXXX
+            }
+         }
+         //yep got ehr
+         catch (Exception e) {
+        	 e.printStackTrace();
+          // :)
+		}
+      }
+      
+//above is the hangman portion of the program
+
+
+
+
+
+
+/*
+   
+   
+   *
+      Loops
+            +
+               Conditions
+                           *
+                     
+                                 */
+                                 
+                                 
+
+      static Scanner scanner = new Scanner(System.in);
+
+	private static int playedCount;
+	
+	
+	
+	private static HangmanGameMenu hangmanGame = new HangmanGameMenu();
+
+//below is the loop + structure of this john hahaha
+ public static void main(String[] args) 
+ {
+      
+  
+           
+      System.out.println("\n\t\t\t\tHello Player!\n");
+      
+      
+  
+      
+      System.out.println("Would you like to play Hangman? (1 = yes, 2 = no)");
+      int userStart = scanner.nextInt();
+      
+      while ( userStart != 1 && userStart != 2 )
+      {
+         System.out.println(" \n\t\t    Invalid response\n\tPlease enter a valid response\n\n");
+         System.out.println("Would you like to play Hangman? (1 = yes, 2 = no)");
+         int userStart1 = scanner.nextInt();
+         userStart = userStart1;
+
+      }//while
+
+	  while(userStart == 1) 
+	  {
+		  playedCount++;
+		  
+		  playGame();
+		  
+		  		  
+		  System.out.println("\n\nWould you like to play again? (1 = yes (Homescreen) , 2 = no (Exit) )");
+		  scanner = new Scanner(System.in);
+		  String inputStr = scanner.next();
+		  
+			try 
+         {
+				userStart = Integer.parseInt(inputStr);
+			} 
+         catch (Exception e) 
+         {
+				userStart = 2;
+				System.out.println("\n\n---- Wrong input -----\n\n");
+			}
+
+		  while ( userStart != 1 && userStart != 2 )
+	      {
+	         System.out.println(" \n\t\t    Invalid response\n\tPlease enter a valid response\n\n");
+	         System.out.println("\n\nWould you like to play again? (1 = yes (Homescreen) , 2 = no (Exit) )");
+	         inputStr = scanner.next();
+   		  	 userStart = Integer.parseInt(inputStr);
+	      }//while inner
+	  }//while outer
+
+      hangmanGame.printLeaderBoard();
+  	  System.out.println("\t\t\tThanks for playing!\n\n\t\t\t\t  Goodbye!");
+  	 
+   }
+      //brackets do not line up. gotta fix that pronto hehe
+
+	private static void playGame() 
+	{
+		
+	    System.out.println("\n\n\t\tWelcome to Business Hangman!\n\t  The Category is Business Terms\n\t\t\t\t  Lets start!\n\n");
+	    
+	    while (true)
+	    {
+	      System.out.println("Please choose an option:\n" + "	1) Play Hangman ( 3 words )\n"
+					+ "	2) Leaderboard of Previous Game\n" + "	3) Quit\n" );
+		      String inputStr = scanner.next();
+		      
+		      int option = 3;
+		      try
+            {
+				option = Integer.parseInt(inputStr);
+		      }
+		      catch(Exception e) 
+            {
+		    	  System.out.println("\n\n---- Wrong input -----\n\n");
+		      }
+	         
+	         switch (option) 
+	         {
+	            case 1:
+	               //gotta make map now. great...
+                  hangmanGame.newGame();
+	               hangmanGame.play();
+	            return;
+
+	            case 2:
+	            System.out.println("\nLeaderboard!\n");
+	            hangmanGame.printLeaderBoard();
+	            
+	         break;
+	            case 3:
+	
+	            System.out.println(" \n\t\tThanks For Playing!");
+	            System.out.println("\t\t\t  Goodbye!");
+	            System.exit(0);
+	         
+	       }
+	      
+	   }
+	
+		
+	}
+
+	private void printLeaderBoard() 
+   {
+		if(wordAndCount.size() == 0) 
+      {
+			return;
+		}
+		
+		System.out.println(" \n\t\t\t     ----LEADER BOARD----");
+		Set<String> keySet = wordAndCount.keySet();
+		System.out.println( "*only shows words you have had incorrect attempts on*\n\n" );
+
+		for (String word: keySet) 
+		{
+         System.out.println( word + " - Incorrect Attempts: " + wordAndCount.get(word));
+		}
+		System.out.println("=====================================================\n");
+		
+	}
+	   
+   
+}
+
+
